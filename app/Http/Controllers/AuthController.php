@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
+use App\Models\User;
 use App\Services\GenerateTokenService;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -17,16 +19,18 @@ class AuthController extends Controller
     {
         $credentials = $authRequest->validated();
 
-        if (! auth()->attempt($credentials)) {
-            return response()->json([
-                'message' => 'Unauthorized',
-            ], Response::HTTP_UNAUTHORIZED);
+        $user = User::query()
+            ->whereEmail(data_get($credentials, 'email'))
+            ->first();
+
+        if (blank($user) || ! Hash::check($credentials['password'], $user->password)) {
+            return response()->json(
+                status: Response::HTTP_UNAUTHORIZED
+            );
         }
 
-        $client = auth()->user();
-
         return response()->json([
-            'token' => $this->generateTokenService->handle($client),
-        ]);
+            'token' => $this->generateTokenService->handle($user),
+        ], Response::HTTP_OK);
     }
 }
