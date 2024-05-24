@@ -8,14 +8,14 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class UserController extends Controller
+class UserStoreController extends Controller
 {
     public function __construct(
         private readonly UserServiceInterface $userService
     ) {
     }
 
-    public function store(UserStoreRequest $request)
+    public function __invoke(UserStoreRequest $request)
     {
         try {
             $data = $request->validated();
