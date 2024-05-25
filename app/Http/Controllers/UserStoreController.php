@@ -26,10 +26,9 @@ class UserStoreController extends Controller
             ], Response::HTTP_CREATED);
 
         } catch (Exception $e) {
-
-            Log::error(null, [
-                'exception' => $e->getMessage(),
+            Log::error(self::class, [
                 'request' => $request->all(),
+                'exception' => $e,
             ]);
 
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
