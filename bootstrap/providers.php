@@ -2,6 +2,7 @@
 
 return [
     App\Providers\AppServiceProvider::class,
+    App\Providers\HorizonServiceProvider::class,
     App\Providers\Repositories\AsaasRepositoryProvider::class,
     App\Providers\Repositories\TransactionRepositoryProvider::class,
     App\Providers\Repositories\UserRepositoryProvider::class,
