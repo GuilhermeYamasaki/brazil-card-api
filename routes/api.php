@@ -11,4 +11,6 @@ Route::prefix('users')->group(function () {
     Route::post('/', 'UserStoreController')->name('users.store');
 });
 
-
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/money/send', 'MoneySendController')->name('money.send');
+});
