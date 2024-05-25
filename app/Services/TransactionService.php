@@ -18,15 +18,15 @@ class TransactionService implements TransactionServiceInterface
         int $senderUserId,
         string $transactionId,
         string $amount,
-        TransactionPaymentMethodEnum $paymentMethod,
         string $gateway,
-        int $recipientUserId
+        int $recipientUserId,
+        ?TransactionPaymentMethodEnum $paymentMethod = null,
     ): string {
         return $this->transactionRepository->register([
             'user_sender_id' => $senderUserId,
             'transaction_id' => $transactionId,
             'amount' => $amount,
-            'payment_method' => $paymentMethod->value,
+            'payment_method' => data_get($paymentMethod, 'value'),
             'status' => TransactionStatusEnum::PENDING,
             'user_recipient_id' => $recipientUserId,
         ]);

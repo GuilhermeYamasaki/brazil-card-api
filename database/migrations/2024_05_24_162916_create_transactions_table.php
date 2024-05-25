@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_recipient_id')->references('id')->on('users');
             $table->decimal('amount', 14, 2);
             $table->string('status');
-            $table->integer('payment_method');
+            $table->integer('payment_method')->nullable();
             $table->timestamps();
         });
     }

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\TransactionPaymentMethodEnum;
 use App\Repositories\Interfaces\AsaasRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
@@ -18,26 +17,26 @@ class AsaasService implements AsaasServiceInterface
     ) {
     }
 
-    public function charge(float $amount, TransactionPaymentMethodEnum $paymentMethod, int $recipientUserId): string
+    public function charge(float $amount, int $senderUserId): string
     {
-        $recipientUser = $this->userRepository->findById($recipientUserId);
-        $customer = $this->asaasRepository->findCustomerByEmail($recipientUser->email);
+        $senderUser = $this->userRepository->findById($senderUserId);
+        $customer = $this->asaasRepository->findCustomerByEmail($senderUser->email);
         $dueDate = now()->addDay()->format('Y-m-d');
 
         if (empty($customer)) {
             $customer = $this->asaasRepository->createCustomer([
-                'name' => $recipientUser->name,
-                'email' => $recipientUser->email,
-                'cpfCnpj' => $recipientUser->document,
+                'name' => $senderUser->name,
+                'email' => $senderUser->email,
+                'cpfCnpj' => $senderUser->document,
             ]);
         }
 
         $transaction = $this->asaasRepository->createTransaction([
             'customer' => data_get($customer, 'id'),
-            'billingType' => $paymentMethod->asaas(),
+            'billingType' => 'UNDEFINED',
             'value' => $amount,
             'description' => 'Cobrança gerada',
-            'externalReference' => $recipientUser->id,
+            'externalReference' => $senderUser->id,
             'dueDate' => $dueDate,
         ]);
 

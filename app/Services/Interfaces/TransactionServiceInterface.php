@@ -10,8 +10,8 @@ interface TransactionServiceInterface
         int $senderUserId,
         string $transactionId,
         string $amount,
-        TransactionPaymentMethodEnum $paymentMethod,
         string $gateway,
-        int $recipientUserId
+        int $recipientUserId,
+        ?TransactionPaymentMethodEnum $paymentMethod = null
     ): string;
 }

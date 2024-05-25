@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\TransactionPaymentMethodEnum;
-use App\Http\Requests\MoneySendRequest;
+use App\Http\Requests\MoneyChargeRequest;
 use App\Services\Interfaces\AsaasServiceInterface;
 use App\Services\Interfaces\TransactionServiceInterface;
 use Exception;
@@ -11,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class MoneySendController extends Controller
+class MoneyChargeController extends Controller
 {
     public function __construct(
         private readonly TransactionServiceInterface $transactionService,
@@ -19,29 +18,27 @@ class MoneySendController extends Controller
     ) {
     }
 
-    public function __invoke(MoneySendRequest $request): JsonResponse
+    public function __invoke(MoneyChargeRequest $request): JsonResponse
     {
         try {
             $data = $request->validated();
 
-            $senderUserId = auth()->user()->id;
-            $recipientUserId = data_get($data, 'recipientUserId');
+            $recipientUserId = auth()->user()->id;
+            $senderUserId = data_get($data, 'senderUserId');
             $amount = data_get($data, 'amount');
-            $paymentMethod = TransactionPaymentMethodEnum::tryFrom(
-                data_get($data, 'paymentMethod'),
-            );
 
             $gateway = 'asaas';
-            $transactionId = $this->gatewayService->charge($amount, $paymentMethod, $recipientUserId);
+            $transactionId = $this->gatewayService->charge($amount, $senderUserId);
 
             $historyId = $this->transactionService->saveHistory(
                 $senderUserId,
                 $transactionId,
                 $amount,
-                $paymentMethod,
                 $gateway,
                 $recipientUserId
             );
+
+            //Enviar email para senderUserId, link do pagamento do asaas
 
             return response()->json([
                 'history_id' => $historyId,

@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\TransactionPaymentMethodEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MoneySendRequest extends FormRequest
+class MoneyChargeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +22,7 @@ class MoneySendRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'recipientUserId' => 'required|integer|exists:users,id',
-            'paymentMethod' => 'required|integer|in:'.TransactionPaymentMethodEnum::values()->implode(','),
+            'senderUserId' => 'required|integer|exists:users,id',
             'amount' => 'required|numeric|min:0',
         ];
     }
