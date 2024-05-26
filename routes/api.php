@@ -12,5 +12,10 @@ Route::prefix('users')->group(function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/money/send', 'MoneySendController')->name('money.send');
+    Route::post('/money/charge', 'MoneyChargeController')->name('money.charge');
+    Route::post('/money/transfer', 'MoneyTransferController')->name('money.transfer');
+});
+
+Route::prefix('webhook')->group(function () {
+    Route::post('/asaas', 'WehbookAsaasController')->name('webhook.asaas');
 });

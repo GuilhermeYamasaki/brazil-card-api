@@ -32,4 +32,11 @@ class UserService implements UserServiceInterface
             'token' => $token,
         ];
     }
+
+    public function canTransfer(int $userId, float $amount): bool
+    {
+        $user = $this->userRepository->findById($userId);
+
+        return $user->money >= $amount;
+    }
 }

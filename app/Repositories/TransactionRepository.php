@@ -18,4 +18,18 @@ class TransactionRepository implements TransactionRepositoryInterface
 
         return data_get($transaction, 'id');
     }
+
+    public function findByTransaction(string $transactionId): array
+    {
+        $transaction = $this->model->where('transaction_id', $transactionId)->firstOrFail();
+
+        return $transaction->toArray();
+    }
+
+    public function update(string $transactionId, array $data): void
+    {
+        $transaction = $this->model->where('transaction_id', $transactionId)->firstOrFail();
+
+        $transaction->update($data);
+    }
 }
