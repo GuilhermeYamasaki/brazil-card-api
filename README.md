@@ -79,7 +79,7 @@ http://localhost:8000
 - [Laravel 11.x](https://laravel.com/)
 - [Pint](https://laravel.com/docs/11.x/pint)
 - [Redis](https://redis.io/)
-- [PostgreSQL](hhttps://www.postgresql.org/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Mailpit](https://mailpit.axllent.org/)
 - [Telescope](https://laravel.com/docs/11.x/telescope)
 - [Horizon](https://laravel.com/docs/11.x/horizon)
