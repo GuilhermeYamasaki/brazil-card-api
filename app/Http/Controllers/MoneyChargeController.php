@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MoneyChargeRequest;
-use App\Services\Interfaces\AsaasServiceInterface;
+use App\Services\Interfaces\GatewayServiceInterface;
 use App\Services\Interfaces\TransactionServiceInterface;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +14,7 @@ class MoneyChargeController extends Controller
 {
     public function __construct(
         private readonly TransactionServiceInterface $transactionService,
-        private readonly AsaasServiceInterface $gatewayService,
+        private readonly GatewayServiceInterface $gatewayService,
     ) {
     }
 
@@ -37,8 +37,6 @@ class MoneyChargeController extends Controller
                 $gateway,
                 $recipientUserId
             );
-
-            //Enviar email para senderUserId, link do pagamento do asaas
 
             return response()->json([
                 'history_id' => $historyId,

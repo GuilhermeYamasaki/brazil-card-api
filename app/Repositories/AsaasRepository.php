@@ -13,11 +13,11 @@ class AsaasRepository implements AsaasRepositoryInterface
 
     public function __construct()
     {
-        $this->baseUri = config('asaas.url');
+        $this->baseUri = config('gateway.asaas.url');
         $this->headers = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            'access_token' => config('asaas.token'),
+            'access_token' => config('gateway.asaas.token'),
         ];
     }
 

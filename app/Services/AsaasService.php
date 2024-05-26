@@ -47,4 +47,9 @@ class AsaasService implements AsaasServiceInterface
 
         return $transactionId;
     }
+
+    public function getName(): string
+    {
+        return 'asaas';
+    }
 }

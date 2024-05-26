@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MoneyTransferRequest;
-use App\Services\Interfaces\AsaasServiceInterface;
+use App\Services\Interfaces\GatewayServiceInterface;
 use App\Services\Interfaces\TransactionServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use Exception;
@@ -15,7 +15,7 @@ class MoneyTransferController extends Controller
 {
     public function __construct(
         private readonly TransactionServiceInterface $transactionService,
-        private readonly AsaasServiceInterface $gatewayService,
+        private readonly GatewayServiceInterface $gatewayService,
         private readonly UserServiceInterface $userService,
     ) {
     }
@@ -36,7 +36,7 @@ class MoneyTransferController extends Controller
 
             $recipientUserId = data_get($data, 'recipientUserId');
 
-            $gateway = 'asaas';
+            $gateway = $this->gatewayService->getName();
             $transactionId = $this->gatewayService->charge($amount, $senderUserId);
 
             $historyId = $this->transactionService->saveHistory(

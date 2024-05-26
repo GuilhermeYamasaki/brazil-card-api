@@ -11,7 +11,7 @@ class WehbookAsaasRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if ($this->header('asaas-access-token') !== config('asaas.signature')) {
+        if ($this->header('asaas-access-token') !== config('gateway.asaas.signature')) {
             return false;
         }
 

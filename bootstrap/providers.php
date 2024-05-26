@@ -10,4 +10,5 @@ return [
     App\Providers\Services\TransactionServiceProvider::class,
     App\Providers\Services\UserServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
+    App\Providers\Services\GatewayServiceProvider::class,
 ];
