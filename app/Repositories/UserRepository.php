@@ -27,4 +27,14 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->model->find($id);
     }
+
+    public function addMoney(int $userId, float $amount): void
+    {
+        $this->model->find($userId)->increment('money', $amount);
+    }
+
+    public function subtractMoney(int $userId, float $amount): void
+    {
+        $this->model->find($userId)->decrement('money', $amount);
+    }
 }
