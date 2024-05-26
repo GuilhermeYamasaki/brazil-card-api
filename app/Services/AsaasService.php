@@ -36,7 +36,6 @@ class AsaasService implements AsaasServiceInterface
             'billingType' => 'UNDEFINED',
             'value' => $amount,
             'description' => 'Cobrança gerada',
-            'externalReference' => $senderUser->id,
             'dueDate' => $dueDate,
         ]);
 
