@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Enums\TransactionPaymentMethodEnum;
 use App\Enums\TransactionStatusEnum;
+use App\Mail\OverdueEventMail;
 use App\Mail\PaidEventMail;
 use App\Mail\PendingEventMail;
 use App\Mail\RefundEventMail;
@@ -51,7 +52,7 @@ class WebhookAsaasJob implements ShouldQueue
             TransactionStatusEnum::CONFIRMED => $this->paidEvent($history),
             TransactionStatusEnum::REFUND => $this->refundEvent($history),
             TransactionStatusEnum::PENDING => $this->pendingEvent($history),
-            TransactionStatusEnum::OVERDUE => $this->pendingEvent($history),
+            TransactionStatusEnum::OVERDUE => $this->overdueEvent($history),
         };
 
         $transactionRepository->update(
@@ -134,6 +135,25 @@ class WebhookAsaasJob implements ShouldQueue
 
         Mail::to($sender->email)
             ->send(new PendingEventMail([
+                'senderName' => $sender->name,
+                'recipientName' => $recipient->name,
+                'amount' => data_get($history, 'amount'),
+                'invoiceUrl' => data_get($this->data, 'payment.invoiceUrl'),
+            ]));
+    }
+
+    private function overdueEvent(array $history): void
+    {
+        $sender = $this->userRepository->findById(
+            data_get($history, 'user_sender_id')
+        );
+
+        $recipient = $this->userRepository->findById(
+            data_get($history, 'user_recipient_id')
+        );
+
+        Mail::to($sender->email)
+            ->send(new OverdueEventMail([
                 'senderName' => $sender->name,
                 'recipientName' => $recipient->name,
                 'amount' => data_get($history, 'amount'),
