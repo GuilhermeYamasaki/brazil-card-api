@@ -68,12 +68,6 @@ sail artisan test
 sail artisan queue:work
 ```
 
-#### Por fim, acesse no navegador
-
-```
-http://localhost:8000
-```
-
 ## Tecnologias
 
 - [Laravel 11.x](https://laravel.com/)
