@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagamento criado</title>
+    <title>Pagamento criado/pendente</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,7 +54,7 @@
         <h1>Olá, {{ $data['senderName'] }}</h1>
 
         <p>Estamos felizes em informar que o pagamento de <strong>R$ {{ number_format($data['amount'], 2, ',', '.') }}</strong> para {{ $data['recipientName'] }}
-            foi criado com sucesso.
+            foi criado com sucesso e está pendente de pagamento.
         </p>
         <p>Você pode realizar o pagamento clicando no link abaixo:</p>
 

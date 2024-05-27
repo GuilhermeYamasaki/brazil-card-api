@@ -7,6 +7,7 @@ use App\Enums\TransactionStatusEnum;
 use App\Mail\PaidEventMail;
 use App\Mail\PendingEventMail;
 use App\Mail\RefundEventMail;
+use App\Models\Transaction;
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Bus\Queueable;
@@ -50,6 +51,7 @@ class WebhookAsaasJob implements ShouldQueue
             TransactionStatusEnum::CONFIRMED => $this->paidEvent($history),
             TransactionStatusEnum::REFUND => $this->refundEvent($history),
             TransactionStatusEnum::PENDING => $this->pendingEvent($history),
+            TransactionStatusEnum::OVERDUE => $this->pendingEvent($history),
         };
 
         $transactionRepository->update(
